@@ -20,9 +20,7 @@ EXECUTION INSTRUCTIONS
 
 OUTPUT
 ======
-- Your output should be something like:
-
-i.e. string = "hello"
+Let's say "hello" is the string, then the output would be:
 
 Child: hello
 Capitalized: HELLO
