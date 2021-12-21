@@ -11,7 +11,7 @@
 ## Details
 
 ```
-Language: C++
+Language: C
 
 EXECUTION INSTRUCTIONS
 ======================
