@@ -9,7 +9,7 @@
 #define MAX_STRING_LENGTH 1000
 
 int main(int argc, char** argv) {
-  // The array to store pipe file descriptors
+  // The arrays to store pipe file descriptors
   int firstPipe[2];
   int secondPipe[2];
 
@@ -39,12 +39,13 @@ int main(int argc, char** argv) {
     exit(1);
   }
 
-  // Create a pipe
+  // Create a pipe (child)
   if (pipe(firstPipe) < 0) {
     perror("pipe");
     exit(1);
   }
 
+  // Create a pipe (parent)
   if (pipe(secondPipe) < 0) {
     perror("pipe");
     exit(1);
@@ -74,9 +75,11 @@ int main(int argc, char** argv) {
 
     // Close the no longer needed write-end
     close(firstPipe[1]);
-
+    
+    // Read the string from the parent
     read(secondPipe[0], recvStr, MAX_STRING_LENGTH);
 
+    // Print out capitalized string
     fprintf(stderr, "Capitalized: %s\n", recvStr);
     exit(1);
   }
@@ -96,10 +99,12 @@ int main(int argc, char** argv) {
     // Print the string
     fprintf(stderr, "Child: %s\n", recvStr);
 
+    // Capitalize the string contents
     for (int i = 0; i < stringLength; i++) {
       recvStr[i] = toupper(recvStr[i]);
     }
 
+    // Write the string to the parent
     write(secondPipe[1], recvStr, MAX_STRING_LENGTH);
 
     // Close the unused end
